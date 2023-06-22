@@ -1,4 +1,5 @@
-<h1>Demo project. Part one</h1>
+<h1>Terraform_with_Nana</h1>
+<h2>Demo project. Part one</h2>
 1. Create a vpc
 2. create one subnet in one az
 3. connect vpc to internet using igw
