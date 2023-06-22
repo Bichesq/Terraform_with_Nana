@@ -1,0 +1,8 @@
+vpc_cidr_block = "10.0.10.0/16"
+subnet_cidr_block = "10.0.10.0/24"
+avail_zone = "eu-central-1b"
+env_prefix = "dev"
+instance_type = "t2.micro"
+pem_file_location = "~/.ssh/dev-prod.pem"
+key_pair_name = "dev-prod"
+region = "eu-central-1"
