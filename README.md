@@ -34,7 +34,12 @@ The eks module has no required inputs but the following are defined here:<br>
     - vpc_id (referenced from the output of the vpc module)<br>
     - tags (environment and application)<br>
     - then the worker_group: these are a non-managed option. two ec2 instances are specified on which the worker nods will be created. Other options are fully managed nodes, semi-managed nodes and Fargate.<br>
-5. For each of the instances the following attributes are specified:
-    - instance_type
-    - name
+5. For each of the instances the following attributes are specified:<br>
+    - instance_type<br>
+    - name<br>
     - asg_desired_capasity
+
+
+    <h2>ISSUES ENCOUNTERED AND REMEDIES</h2>
+    1. The argument work_groups for eks module is not valid after version 17.24.0. It has been replased with self_managed_node_groups. I did not need to change the arguments.<br>
+    2. In the kubernetes provider, we do not need to use the argument load_config_file = "false". In recent versions the provider does not use the KUBECONFIG file by detault. Use config_path/s to set a path or paths to config files.<br>

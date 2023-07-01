@@ -1,5 +1,5 @@
 provider "kubernetes" {
-  load_config_file = "false"
+  # load_config_file = false
   host = data.aws_eks_cluster.myapp-cluster.endpoint
   token = data.aws_eks_cluster_auth.myapp-cluster.token
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.myapp-cluster.certificate_authority.0.data)
@@ -27,16 +27,40 @@ module "eks" {
     application = "myapp"
   }
 
-  worker_groups = [
-    {
-        instance_type = "t2.small"
-        name = "worker-group-1"
-        asg_desired_capacity = 2
-    },
-    {
-        instance_type = "t2.medium"
-        name = "worker-group-1"
-        asg_desired_capacity = 1
+
+  self_managed_node_group_defaults = {
+    instance_type                          = "t2.small"
+    update_launch_template_default_version = true
+    iam_role_additional_policies = {
+      AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     }
-  ] 
+  }
+
+  self_managed_node_groups = {
+    one = {
+      name         = "mixed-1"
+      max_size     = 5
+      desired_size = 2
+
+      use_mixed_instances_policy = true
+      mixed_instances_policy = {
+        instances_distribution = {
+          on_demand_base_capacity                  = 0
+          on_demand_percentage_above_base_capacity = 10
+          spot_allocation_strategy                 = "capacity-optimized"
+        }
+
+        override = [
+          {
+            instance_type     = "t2.small"
+            weighted_capacity = "2"
+          },
+          {
+            instance_type     = "t2.medium"
+            weighted_capacity = "1"
+          },
+        ]
+      }
+    }
+  }
 }
