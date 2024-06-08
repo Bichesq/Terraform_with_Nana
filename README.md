@@ -12,11 +12,3 @@
   </ul>
   <li>Create and configure a security group with ports 80 for http and 22 for ssh</li>
 </ol>
-1. 
-2. 
-3. 
-4. 
-5. 
--
--
-6. 
